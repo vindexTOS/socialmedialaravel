@@ -14,19 +14,34 @@ class AuthController extends Controller
     public function __construct(AuthService $authService) {
         $this->authService = $authService;
     }
-    public function store(Request $request){
+    public function signup(Request $request){
         
         try {
-            return $this->authService->store($request);
+            return $this->authService->signup($request);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['errors' => $e->validator->errors()], 422);
         } catch (\Throwable $th) {
             \Log::error('Caught exception: ' . $th->getMessage() . ' in ' . $th->getFile() . ' on line ' . $th->getLine());
             
-            // Return a generic error message to the client
             return response()->json(['error' => 'An error occurred.'], 500);
         }
     }
     
+    
+    
+    
+    public function login(Request $request){
+        
+        try {
+            return $this->authService->login($request);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['errors' => $e->validator->errors()], 422);
+        } catch (\Throwable $th) {
+            \Log::error('Caught exception: ' . $th->getMessage() . ' in ' . $th->getFile() . ' on line ' . $th->getLine());
+            
+            return response()->json(['error' => 'An error occurred.'], 500);
+        }
+        
+    }
     
 }

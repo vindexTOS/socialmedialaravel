@@ -4,14 +4,15 @@ namespace App\Services;
 use App\Models\User;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class AuthService
 {
-    public function store(Request $request)
+    public function signup(Request $request)
     {  
         $val =  Validator::make($request->all(), [
             "name"=>"required",
@@ -33,6 +34,32 @@ class AuthService
         
         return response()->json(['msg' => 'Your account has been created'], 201);
     }
+    
+    
+    public function login(Request $request){
+        $val = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+        if($val->fails()){
+            throw new ValidationException($val);
+        }
+        
+        
+        if(Auth::attempt(["email"=>$request->email, "password"=> $request->password])){
+            $user = Auth::user();
+            
+            
+            $token = $user->createToken('API Token')->accessToken;
+            
+            
+            return response()->json(['user'=>$user, "token"=>$token],200);
+            
+        }else{
+            return response()->json(['error'=>"Invalid email or password"], 401);
+        }
+    }
+    
     
     public function index()
     {
