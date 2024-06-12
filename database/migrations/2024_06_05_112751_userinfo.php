@@ -7,29 +7,29 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
-     */
+    * Run the migrations.
+    */
     public function up(): void
     {
-        Schema::create("userinfo", function (Blueprint $table){
+        Schema::create("userinfos", function (Blueprint $table){
             $table->id();
-         
+            
             $table->string("description");
             $table->timestamps();
-
-
-
+            
+            
+            
             // $table->foreign("profile_photo_id")->references("id")->on("photos")->onDelete('cascade');
             // $table->foreign("wall_papper_id")->references("id")->on("photos")->onDelete("cascade");
             // $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade");
         });
     }
-
+    
     /**
-     * Reverse the migrations.
-     */
+    * Reverse the migrations.
+    */
     public function down(): void
     {
-       Schema::dropIfExists("userinfo");
+        Schema::dropIfExists("userinfos");
     }
 };

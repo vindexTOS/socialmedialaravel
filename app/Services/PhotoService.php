@@ -4,6 +4,7 @@
 namespace App\Services;
 use App\Models\Photos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -11,22 +12,21 @@ use Illuminate\Validation\ValidationException;
 
 class PhotoService { 
     
-    public function UploadPhoto (Request $request){
-        // $data = $this->Validator($request);
+    public function uploadPhoto(Request $request, $imgType){
+        if($request->hasFile($imgType)){
+            $image = $request->file($imgType);
+            $userId = $request->user_id;
+            $uploadedImageUrl = $image->store("images", "public");
+            
+            $newPhoto = Photos::create([
+                "user_id" => $userId,
+                "img_url" => $uploadedImageUrl,
+            ]);
+            
+            return $newPhoto;
+        }
         
-        
-        $image = $request->file("image");
-        $userId = $request["user_id"];
-        $uploadedImageUrl = $image->store("images", "public");
-        
-        
-        $newPhoto=  Photo::create([
-            "user_id"=> $userId,
-            "img_url"=>  $uploadedImageUrl,
-        ]);
-        
-        return ["data"=> $newPhoto]; 
-        
+        return null;  
     }
     
     private function Validator(Request $request){

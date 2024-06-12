@@ -6,19 +6,19 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class UserInfo extends Model
+class Userinfo extends Model
 {
-    use HasFactory;
-
-    protected $fillable = [
-        'profile_photo_id',
-        "wall_papper_id",
-        'description',
-          "user_id",
-        ];
-
-        public function User()
-        {
-            return $this->belongsTo(User::class);
-        }
+  use HasFactory;
+  
+  protected $fillable = [
+    'profile_photo_id',
+    "wall_papper_id",
+    'description',
+    "user_id",
+  ];
+  
+  public function User()
+  {
+    return $this->belongsTo(User::class);
+  }
 }

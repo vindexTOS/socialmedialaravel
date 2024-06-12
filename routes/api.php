@@ -13,9 +13,10 @@ Route::prefix("auth")->group(function(){
     Route::post("signup", [AuthController::class, "signup"]);
     Route::post("login", [AuthController::class, "login"]);
 });
+Route::apiResource("userInfo", UserInfoController::class);
 
 
-Route::post("photoUpload", [UserInfoController::class, "MakePhoto"]);
+// Route::post("photoUpload", [UserInfoController::class, "MakePhoto"]);
 // Route::prefix("user")->(function(){
 
 // });
